@@ -2,24 +2,53 @@
 <html>
   <head>
     <title>
-      Slider Puzzle
+      Whack a mole
     </title>
-    
     <link href='https://fonts.googleapis.com/css?family=Roboto:400,100' rel='stylesheet' type='text/css'>
-
     <link href="style.css" rel="stylesheet" />
   </head>
   <body>
 
-    <main id="app">
-      <button id="close" class="button close-button">X</button>
-    </main>
+    <main class="app">
+      <h1 class="accessible">Whack a mole!</h1>
 
-    <footer>
-      <button id="retry" class="button retry-button">RETRY</button>
-      <button id="solve" class="button solve-button">SOLVE</button>
-      <button id="hint" title="best first guess, might not work" class="button hint-button">HINT</button>
-    </footer>
+      <section class="container">
+        <div class="cube">
+          <figure class="back">
+            <figcaption class="score">start</figcaption>
+          </figure>
+          <figure class="right">
+            <button class="mascot">(#ﾟДﾟ)</button>
+            <button class="mole resting"></button>
+            <button class="mole resting"></button>
+            <button class="mole resting"></button>
+            <button class="mole resting"></button>
+            <button class="mole resting"></button>
+          </figure>
+          <figure class="bottom">
+            <button class="mole resting"></button>
+            <button class="mole resting"></button>
+            <button class="mole resting"></button>
+            <button class="mole resting"></button>
+            <button class="mole resting"></button>
+          </figure>
+          <figure class="left">
+            <button class="mole resting"></button>
+            <button class="mole resting"></button>
+            <button class="mole resting"></button>
+            <button class="mole resting"></button>
+            <button class="mole resting"></button>
+          </figure>
+          <figure class="top">
+            <button class="mole resting"></button>
+            <button class="mole resting"></button>
+            <button class="mole resting"></button>
+            <button class="mole resting"></button>
+            <button class="mole resting"></button>
+          </figure>
+        </div>
+      </section>
+    </main>
 
     <script src="bundle.js"></script>
   </body>
