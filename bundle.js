@@ -47497,10 +47497,10 @@
 
 	      // Circles
 	      this.svg.append('circle').attr('class', 'highest-delta').attr("cx", function (d) {
-	        var percent = _this4.padding + (_this4.highestDelta - _this4.twitterData[0].day) / (_this4.twitterData[_this4.twitterData.length - 1].day - _this4.twitterData[0].day) * rawSvg.clientWidth;
+	        var percent = _this4.getDeltaPercent(rawSvg);
 	        return percent;
 	      }).attr("cy", function (d) {
-	        return 300;
+	        return rawSvg.clientHeight / 2;
 	      }).attr("r", function (d) {
 	        return 40;
 	      }).style("fill", '#e83100').style("fill-opacity", '0.5');
@@ -47524,15 +47524,15 @@
 	      this.svg.selectAll("g.y-axis-facebook").call(this.facebookYAxisGen);
 	      this.svg.selectAll("g.y-axis-delta").call(this.deltaYAxisGen);
 
-	      this.svg.selectAll('circle').attr('class', 'highest-delta').attr("cx", function (d) {
-	        var percent = _this5.padding + (_this5.highestDelta - _this5.twitterData[0].day) / (_this5.twitterData[_this5.twitterData.length - 1].day - _this5.twitterData[0].day) * rawSvg.clientWidth;
-
-	        return percent;
-	      }).transition().duration(timeout).ease("cubic");
+	      this.svg.selectAll('circle').transition().delay(timeout / 2).duration(timeout / 2).ease("cubic").attr("cx", function (d) {
+	        return _this5.getDeltaPercent(rawSvg);
+	      });
 	    }
-
-	    // TODO: Not DRY;
-
+	  }, {
+	    key: 'getDeltaPercent',
+	    value: function getDeltaPercent(rawSvg) {
+	      return (this.highestDelta - this.facebookData[0].day) / (this.facebookData[this.facebookData.length - 1].day - this.facebookData[0].day) * (rawSvg.clientWidth - 2 * this.padding) + parseInt(this.padding);
+	    }
 	  }, {
 	    key: 'getFirstKey',
 	    value: function getFirstKey(data) {
