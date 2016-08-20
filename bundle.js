@@ -31585,13 +31585,13 @@
 /* 4 */
 /***/ function(module, exports) {
 
-	module.exports = "<section class=\"app\">\n  <controls data=\"root.data\" on-data-change=\"rootCtrl.data = $event.data\" class=\"controls-component\"></controls>\n  <graph data=\"rootCtrl.data\" class=\"graph-component\"></graph>\n</section>"
+	module.exports = "<section class=\"app\">\n  <controls data=\"rootCtrl.data\" on-data-change=\"rootCtrl.data = $event.data\" class=\"controls-component\"></controls>\n  <graph data=\"rootCtrl.data\" class=\"graph-component\"></graph>\n</section>"
 
 /***/ },
 /* 5 */
 /***/ function(module, exports) {
 
-	'use strict';
+	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -31605,11 +31605,11 @@
 	  function AppController(graphService) {
 	    _classCallCheck(this, AppController);
 
-	    this.data = 'onions';
+	    this.data = undefined;
 	  }
 
 	  _createClass(AppController, [{
-	    key: 'modifyData',
+	    key: "modifyData",
 	    value: function modifyData(data) {
 	      this.data = data;
 	    }
@@ -31712,7 +31712,7 @@
 /* 9 */
 /***/ function(module, exports) {
 
-	module.exports = "<form>\n  <legend class=\"\">My best week ever!!! <sup>(in the last year)</sup></legend>\n  <fieldset> \n    <input id=\"artist\" type=\"text\" value=\"{{ controlsCtrl.artistRequested }}\" ng-change=\"controlsCtrl.getArtist()\" ng-model=\"controlsCtrl.artistRequested\" />\n    <label for=\"artist\" class=\"accessible\">choose an artist</label>\n  </fieldset>  \n</form>\n<p>\n  <span class=\"accessible\">Searched for:</span> \n  <span class=\"artist-results\">\n    {{ controlsCtrl.artistName }}\n    <sup>\n      {{ controlsCtrl.data.metrics.highestDelta.total }}\n      {{ controlsCtrl.data.metrics.highestDelta.date }}\n    </sup>\n  </span>\n\n</p>"
+	module.exports = "<form>\n  <legend class=\"\">My best week ever!!! <sup>(in the last year)</sup></legend>\n  <fieldset> \n    <input id=\"artist\" type=\"text\" value=\"{{ controlsCtrl.artistRequested }}\" ng-change=\"controlsCtrl.getArtist()\" ng-model=\"controlsCtrl.artistRequested\" />\n    <label for=\"artist\" class=\"accessible\">choose an artist</label>\n  </fieldset>  \n</form>\n<article class=\"result\">\n  <span class=\"accessible\">Searched for:</span> \n  <span class=\"artist-results\">\n    {{ controlsCtrl.artistName }}\n    <sup>\n      {{ controlsCtrl.data.metrics.highestDelta.total }}\n      {{ controlsCtrl.data.metrics.highestDelta.date }}\n    </sup>\n  </span>\n\n</article>"
 
 /***/ },
 /* 10 */
@@ -47338,7 +47338,7 @@
 
 	    this.name = 'graph service';
 
-	    this.padding = 100;
+	    this.padding = 60;
 	    this.pathClass = 'path';
 	    this.svg = undefined;
 	    this.xScale = undefined;
@@ -47440,11 +47440,23 @@
 
 	      this.xAxisGen = D3.svg.axis().scale(this.xScale).orient("bottom").ticks(0);
 
-	      this.twitterYAxisGen = D3.svg.axis().scale(this.twitterYScale).orient("right").ticks(5).tickFormat(d3.format("0s"));
+	      this.twitterYAxisGen = D3.svg.axis().scale(this.twitterYScale).orient("left").ticks(3).tickFormat(function (d, index) {
+	        if (index === 0) {
+	          return '' + d3.format('0s')(d);
+	        } else {
+	          return d3.format('0s')(d);
+	        }
+	      });
 
-	      this.facebookYAxisGen = D3.svg.axis().scale(this.facebookYScale).orient("left").ticks(5).tickFormat(d3.format("0s"));
+	      this.facebookYAxisGen = D3.svg.axis().scale(this.facebookYScale).orient("right").ticks(2).tickFormat(function (d, index) {
+	        if (index === 0) {
+	          return '' + d3.format('0s')(d);
+	        } else {
+	          return d3.format('0s')(d);
+	        }
+	      });
 
-	      this.deltaYAxisGen = D3.svg.axis().scale(this.deltaYScale).orient("left").ticks(5).tickFormat(d3.format("0s"));
+	      this.deltaYAxisGen = D3.svg.axis().scale(this.deltaYScale).orient("left").tickFormat(d3.format("0s")).ticks(2);
 
 	      this.twitterArea = D3.svg.area().x(function (d) {
 	        return _this3.xScale(d.day);
@@ -47516,7 +47528,7 @@
 	      }).attr("cy", function (d) {
 	        return rawSvg.clientHeight / 2;
 	      }).attr("r", function (d) {
-	        return 40;
+	        return 30;
 	      }).style("fill", '#e83100').style("fill-opacity", '0.5');
 
 	      this.initialized = true;
@@ -57155,7 +57167,7 @@
 
 
 	// module
-	exports.push([module.id, "html {\n  background-color: #fff;\n  color: #086788;\n  font-family: 'Josefin Slab', serif;\n  font-size: 20px; }\n\n@media (max-width: 800px) {\n  html {\n    font-size: 16px; }\n    html fieldset {\n      width: 8em; }\n    html input {\n      width: 150%; } }\n\n@media (min-width: 1000px) {\n  html {\n    font-size: 28px; }\n  fieldset {\n    width: 8em; }\n  input {\n    width: 200%; }\n  svg.graph {\n    top: 2em; } }\n\nform {\n  display: flex;\n  align-items: center;\n  justify-content: center; }\n\nfieldset {\n  border: none; }\n\nlegend {\n  font-size: 1.1em;\n  padding: 0.5em; }\n\ninput {\n  background-color: transparent;\n  border: none;\n  color: #e83100;\n  font-family: 'Abril Fatface', cursive;\n  font-size: 1.5em;\n  /* sorry :( */\n  outline: none;\n  padding: .5em; }\n\nsup {\n  color: #086788;\n  font-size: 0.8em;\n  vertical-align: top; }\n\n.app {\n  overflow: hidden; }\n\n.controls-component {\n  position: fixed;\n  z-index: 2; }\n\n.data {\n  color: purple;\n  font-size: .5em;\n  opacity: 0.00; }\n\n.graph {\n  left: 0;\n  position: fixed;\n  top: 0; }\n  .graph [class*=\"area\"],\n  .graph [class*=\"line\"] {\n    fill-opacity: .1;\n    stroke: #07A0C3;\n    stroke-width: 0.3; }\n  .graph .twitter-area {\n    fill: #e83100; }\n  .graph .facebook-area {\n    fill: #086788; }\n  .graph .delta-line {\n    fill-opacity: .05;\n    fill: #086788;\n    stroke: #086788;\n    stroke-width: 1.3px; }\n  .graph .highest-delta {\n    fill-opacity: .05; }\n  .graph g {\n    fill: none;\n    font-size: 0.8em;\n    stroke: #086788;\n    stroke-width: 0.5px; }\n  .graph g.y-axis-twitter,\n  .graph g.y-axis-twitter .tick {\n    stroke: #ff663e;\n    fill-opacity: .1;\n    font-size: 0.7em; }\n  .graph g.y-axis-delta,\n  .graph g.y-axis-delta .tick {\n    stroke: #086788;\n    stroke-width: 0.8px; }\n\n.artist-results {\n  background-color: rgba(255, 255, 255, 0.7);\n  color: #e83100;\n  font-size: 0.8em;\n  left: 110px;\n  padding: .5em;\n  position: absolute; }\n\n.good-week {\n  bottom: 1em;\n  color: #e83100;\n  font-size: 0.8em;\n  left: 100px;\n  text-align: center; }\n\n.accessible {\n  left: -9999em;\n  position: absolute; }\n\n.hidden {\n  visibility: hidden; }\n", "", {"version":3,"sources":["/./src/src/client/app.scss"],"names":[],"mappings":"AAAA;EACC,uBAAuB;EACtB,eAAe;EACf,mCAAmC;EAEnC,gBAAgB,EACjB;;AAGD;EACE;IACE,gBAAgB,EAQjB;IATD;MAII,WAAW,EACZ;IALH;MAOI,YAAY,EACb,EAAA;;AAIL;EACE;IACE,gBAAgB,EACjB;EAED;IACE,WAAW,EACZ;EAED;IACE,YAAY,EACb;EAED;IACE,SAAS,EACV,EAAA;;AAOH;EACE,cAAc;EACd,oBAAoB;EACpB,wBAAwB,EACzB;;AAED;EACE,aAAa,EACd;;AAED;EACE,iBAAiB;EACjB,eAAe,EAChB;;AAED;EACE,8BAA8B;EAC9B,aAAa;EACb,eAAe;EACf,sCAAsC;EACtC,iBAAiB;EACjB,cAAc;EACd,cAAc;EACd,cAAc,EACf;;AAED;EACE,eAAe;EACf,iBAAiB;EACjB,oBAAoB,EACrB;;AAED;EACE,iBAAiB,EAClB;;AAED;EACE,gBAAgB;EAChB,WAAW,EACZ;;AAED;EACE,cAAc;EACd,gBAAgB;EAChB,cAAc,EACf;;AAED;EAGE,QAAQ;EACR,gBAAgB;EAChB,OAAO,EA+CR;EApDD;;IASI,iBAAiB;IACjB,gBAAgB;IAChB,kBAAkB,EACnB;EAZH;IAeI,cAAc,EACf;EAhBH;IAmBI,cAAc,EACf;EApBH;IAuBI,kBAAkB;IAClB,cAvBa;IAwBb,gBAxBa;IAyBb,oBAAoB,EACrB;EA3BH;IA8BI,kBAAkB,EACnB;EA/BH;IAkCI,WAAW;IACX,iBAAiB;IACjB,gBAAgB;IAChB,oBAAoB,EACrB;EAtCH;;IA0CI,gBAAgB;IAChB,iBAAiB;IACjB,iBAAiB,EAClB;EA7CH;;IAiDI,gBAhDa;IAiDb,oBAAoB,EACrB;;AAGH;EACE,2CAAsB;EACtB,eAAe;EACf,iBAAiB;EACjB,YAAY;EACZ,cAAc;EACd,mBAAmB,EACpB;;AAED;EACE,YAAY;EACZ,eAAe;EACf,iBAAiB;EACjB,YAAY;EACZ,mBAAmB,EACpB;;AAED;EACE,cAAe;EACf,mBAAmB,EACpB;;AAED;EACE,mBAAmB,EACpB","file":"app.scss","sourcesContent":["html {\n\tbackground-color: #fff;\n  color: #086788;\n  font-family: 'Josefin Slab', serif;\n  // font-family: 'Arvo', serif;\n  font-size: 20px;\n}\n\n\n@media (max-width: 800px) {\n  html {\n    font-size: 16px;\n\n    fieldset {\n      width: 8em;\n    }\n    input {\n      width: 150%;\n    } \n  }\n}\n\n@media (min-width: 1000px) {\n  html {\n    font-size: 28px;\n  }\n\n  fieldset {\n    width: 8em;\n  }\n\n  input {\n    width: 200%;\n  }\n\n  svg.graph {\n    top: 2em;\n  }\n}\n\nh1 {\n  // color: #07393C;\n}\n\nform {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n\nfieldset {\n  border: none;\n}\n\nlegend {\n  font-size: 1.1em;\n  padding: 0.5em;\n}\n\ninput {\n  background-color: transparent;\n  border: none;\n  color: #e83100;\n  font-family: 'Abril Fatface', cursive;\n  font-size: 1.5em;\n  /* sorry :( */\n  outline: none;\n  padding: .5em;\n}\n\nsup {\n  color: #086788;\n  font-size: 0.8em;\n  vertical-align: top;  \n}\n\n.app {\n  overflow: hidden;\n}\n\n.controls-component {\n  position: fixed;\n  z-index: 2;\n}\n\n.data {\n  color: purple;\n  font-size: .5em;\n  opacity: 0.00;\n}\n\n.graph {\n  $delta: #086788;\n\n  left: 0;\n  position: fixed;\n  top: 0;\n\n  [class*=\"area\"],\n  [class*=\"line\"] {\n    fill-opacity: .1;\n    stroke: #07A0C3;\n    stroke-width: 0.3;\n  }\n\n  .twitter-area {\n    fill: #e83100;\n  }\n\n  .facebook-area {\n    fill: #086788;\n  }\n\n  .delta-line {\n    fill-opacity: .05;\n    fill: $delta;\n    stroke: $delta;\n    stroke-width: 1.3px;\n  }\n\n  .highest-delta {\n    fill-opacity: .05;\n  }\n\n  g {\n    fill: none;\n    font-size: 0.8em;\n    stroke: #086788;\n    stroke-width: 0.5px;\n  }\n\n  g.y-axis-twitter,\n  g.y-axis-twitter .tick {\n    stroke: #ff663e;\n    fill-opacity: .1;\n    font-size: 0.7em;\n  }\n\n  g.y-axis-delta,\n  g.y-axis-delta .tick {\n    stroke: $delta;\n    stroke-width: 0.8px;\n  }\n}\n\n.artist-results {\n  background-color: rgba(255, 255, 255, 0.7);\n  color: #e83100;\n  font-size: 0.8em;\n  left: 110px;\n  padding: .5em;\n  position: absolute;\n}\n\n.good-week {\n  bottom: 1em;\n  color: #e83100;\n  font-size: 0.8em;\n  left: 100px;\n  text-align: center;\n}\n\n.accessible {\n  left : -9999em;\n  position: absolute;\n}\n\n.hidden {\n  visibility: hidden;\n}"],"sourceRoot":"webpack://"}]);
+	exports.push([module.id, "html {\n  background-color: #fff;\n  color: #086788;\n  font-family: 'Josefin Slab', serif;\n  font-size: 18px; }\n\n@media (max-width: 800px) {\n  html {\n    font-size: 14px; }\n    html fieldset {\n      width: 8em; }\n    html input {\n      width: 150%; } }\n\n@media (min-width: 1000px) {\n  html {\n    font-size: 20px; }\n  fieldset {\n    width: 8em; }\n  input {\n    width: 200%; } }\n\nform {\n  display: flex;\n  align-items: center;\n  justify-content: center; }\n\nfieldset {\n  border: none; }\n\nlegend {\n  font-size: 1.1em;\n  padding: 0.5em; }\n\ninput {\n  background-color: transparent;\n  border: none;\n  color: #e83100;\n  font-family: 'Abril Fatface', cursive;\n  font-size: 1.5em;\n  /* sorry :( */\n  outline: none;\n  padding: .5em; }\n\nsup {\n  color: #086788;\n  font-size: 0.8em;\n  vertical-align: top; }\n\n.app {\n  overflow: hidden; }\n\n.controls-component {\n  position: fixed;\n  z-index: 2; }\n\n.data {\n  color: purple;\n  font-size: .5em;\n  opacity: 0.00; }\n\n.graph {\n  left: 0;\n  position: fixed;\n  top: 4em; }\n  .graph [class*=\"area\"],\n  .graph [class*=\"line\"] {\n    fill-opacity: .1;\n    stroke: #07A0C3;\n    stroke-width: 0.3; }\n  .graph .twitter-area {\n    fill: #e83100; }\n  .graph .facebook-area {\n    fill: #086788; }\n  .graph .delta-line {\n    fill-opacity: .05;\n    fill: #086788;\n    stroke: #086788;\n    stroke-width: 1.3px; }\n  .graph .highest-delta {\n    fill-opacity: .05; }\n  .graph .tick {\n    fill: #fff;\n    fill-opacity: 0.8; }\n  .graph g {\n    fill: none;\n    font-size: 0.8em;\n    stroke: #086788;\n    stroke-width: 0.5px;\n    fill: #fff;\n    fill-opacity: 0.8; }\n  .graph g.y-axis-twitter,\n  .graph g.y-axis-twitter .tick {\n    stroke: #ff663e;\n    fill-opacity: .1;\n    font-size: 0.7em; }\n  .graph g.y-axis-delta,\n  .graph g.y-axis-delta .tick {\n    stroke: #086788;\n    stroke-width: 0.9px; }\n\n.artist-results {\n  background-color: rgba(255, 255, 255, 0.8);\n  color: #e83100;\n  font-size: 0.9em;\n  left: 110px;\n  padding: .5em;\n  position: absolute; }\n\n.good-week {\n  bottom: 1em;\n  color: #e83100;\n  font-size: 0.8em;\n  left: 100px;\n  text-align: center; }\n\n.accessible {\n  left: -9999em;\n  position: absolute; }\n\n.hidden {\n  visibility: hidden; }\n", "", {"version":3,"sources":["/./src/src/client/app.scss"],"names":[],"mappings":"AAAA;EACC,uBAAuB;EACtB,eAAe;EACf,mCAAmC;EACnC,gBAAgB,EACjB;;AAGD;EACE;IACE,gBAAgB,EAQjB;IATD;MAII,WAAW,EACZ;IALH;MAOI,YAAY,EACb,EAAA;;AAIL;EACE;IACE,gBAAgB,EACjB;EAED;IACE,WAAW,EACZ;EAED;IACE,YAAY,EACb,EAAA;;AAOH;EACE,cAAc;EACd,oBAAoB;EACpB,wBAAwB,EACzB;;AAED;EACE,aAAa,EACd;;AAED;EACE,iBAAiB;EACjB,eAAe,EAChB;;AAED;EACE,8BAA8B;EAC9B,aAAa;EACb,eAAe;EACf,sCAAsC;EACtC,iBAAiB;EACjB,cAAc;EACd,cAAc;EACd,cAAc,EACf;;AAED;EACE,eAAe;EACf,iBAAiB;EACjB,oBAAoB,EACrB;;AAED;EACE,iBAAiB,EAClB;;AAED;EACE,gBAAgB;EAChB,WAAW,EACZ;;AAED;EACE,cAAc;EACd,gBAAgB;EAChB,cAAc,EACf;;AAED;EAGE,QAAQ;EACR,gBAAgB;EAChB,SAAS,EAuDV;EA5DD;;IASI,iBAAiB;IACjB,gBAAgB;IAChB,kBAAkB,EACnB;EAZH;IAeI,cAAc,EACf;EAhBH;IAmBI,cAAc,EACf;EApBH;IAuBI,kBAAkB;IAClB,cAvBa;IAwBb,gBAxBa;IAyBb,oBAAoB,EACrB;EA3BH;IA8BI,kBAAkB,EACnB;EA/BH;IAmCI,WAAW;IACX,kBAAkB,EACnB;EArCH;IAwCI,WAAW;IACX,iBAAiB;IACjB,gBAAgB;IAChB,oBAAoB;IACpB,WAAW;IACX,kBAAkB,EACnB;EA9CH;;IAkDI,gBAAgB;IAChB,iBAAiB;IACjB,iBAAiB,EAClB;EArDH;;IAyDI,gBAxDa;IAyDb,oBAAoB,EACrB;;AAGH;EACE,2CAAsB;EACtB,eAAe;EACf,iBAAiB;EACjB,YAAY;EACZ,cAAc;EACd,mBAAmB,EACpB;;AAED;EACE,YAAY;EACZ,eAAe;EACf,iBAAiB;EACjB,YAAY;EACZ,mBAAmB,EACpB;;AAED;EACE,cAAe;EACf,mBAAmB,EACpB;;AAED;EACE,mBAAmB,EACpB","file":"app.scss","sourcesContent":["html {\n\tbackground-color: #fff;\n  color: #086788;\n  font-family: 'Josefin Slab', serif;\n  font-size: 18px;\n}\n\n\n@media (max-width: 800px) {\n  html {\n    font-size: 14px;\n\n    fieldset {\n      width: 8em;\n    }\n    input {\n      width: 150%;\n    } \n  }\n}\n\n@media (min-width: 1000px) {\n  html {\n    font-size: 20px;\n  }\n\n  fieldset {\n    width: 8em;\n  }\n\n  input {\n    width: 200%;\n  }\n}\n\nh1 {\n  // color: #07393C;\n}\n\nform {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n\nfieldset {\n  border: none;\n}\n\nlegend {\n  font-size: 1.1em;\n  padding: 0.5em;\n}\n\ninput {\n  background-color: transparent;\n  border: none;\n  color: #e83100;\n  font-family: 'Abril Fatface', cursive;\n  font-size: 1.5em;\n  /* sorry :( */\n  outline: none;\n  padding: .5em;\n}\n\nsup {\n  color: #086788;\n  font-size: 0.8em;\n  vertical-align: top;  \n}\n\n.app {\n  overflow: hidden;\n}\n\n.controls-component {\n  position: fixed;\n  z-index: 2;\n}\n\n.data {\n  color: purple;\n  font-size: .5em;\n  opacity: 0.00;\n}\n\n.graph {\n  $delta: #086788;\n\n  left: 0;\n  position: fixed;\n  top: 4em;\n\n  [class*=\"area\"],\n  [class*=\"line\"] {\n    fill-opacity: .1;\n    stroke: #07A0C3;\n    stroke-width: 0.3;\n  }\n\n  .twitter-area {\n    fill: #e83100;\n  }\n\n  .facebook-area {\n    fill: #086788;\n  }\n\n  .delta-line {\n    fill-opacity: .05;\n    fill: $delta;\n    stroke: $delta;\n    stroke-width: 1.3px;\n  }\n\n  .highest-delta {\n    fill-opacity: .05;\n  }\n\n\n  .tick {\n    fill: #fff;\n    fill-opacity: 0.8;\n  }\n\n  g {\n    fill: none;\n    font-size: 0.8em;\n    stroke: #086788;\n    stroke-width: 0.5px;\n    fill: #fff;\n    fill-opacity: 0.8;\n  }\n\n  g.y-axis-twitter,\n  g.y-axis-twitter .tick {\n    stroke: #ff663e;\n    fill-opacity: .1;\n    font-size: 0.7em;\n  }\n\n  g.y-axis-delta,\n  g.y-axis-delta .tick {\n    stroke: $delta;\n    stroke-width: 0.9px;\n  }\n}\n\n.artist-results {\n  background-color: rgba(255, 255, 255, 0.8);\n  color: #e83100;\n  font-size: 0.9em;\n  left: 110px;\n  padding: .5em;\n  position: absolute;\n}\n\n.good-week {\n  bottom: 1em;\n  color: #e83100;\n  font-size: 0.8em;\n  left: 100px;\n  text-align: center;\n}\n\n.accessible {\n  left : -9999em;\n  position: absolute;\n}\n\n.hidden {\n  visibility: hidden;\n}"],"sourceRoot":"webpack://"}]);
 
 	// exports
 
